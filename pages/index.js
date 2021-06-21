@@ -51,6 +51,7 @@ export default function Home() {
           </a>
         </div>
       </main>
+      <p> Hello </p>
 
       <footer className={styles.footer}>
         <a
