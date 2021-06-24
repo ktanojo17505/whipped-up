@@ -1,23 +1,66 @@
 import React from "react";
 import 'font-awesome/css/font-awesome.min.css';
-import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import searchIcon from "../public/images/searchicon.svg";
 import xButton from "../public/images/xbutton.svg";
 import Image from "next/image"
 import styles from "../styles/form.module.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Button from "react-bootstrap/Button";
+import Item from "../components/item.js";
 
 
 class FormContainer extends React.Component {
     constructor(props) {
         super(props);
         this.state = { 
+            ingredients: [],
+            ingredientsRemove: []
+        }
+        this.handleIngredientSubmit = this.handleIngredientSubmit.bind(this);
+        this.handleIngredientRemoveSubmit = this.handleIngredientRemoveSubmit.bind(this);
+        this.handleIngredientRemove = this.handleIngredientRemove.bind(this);
+        this.handleRemoveIngredientRemove = this.handleRemoveIngredientRemove.bind(this);
+    }
 
+    handleIngredientSubmit(e) {
+        if (e.key == "Enter"){
+            var ingredientsArray = this.state.ingredients; 
+            ingredientsArray.push(e.target.value); 
+            this.setState({ingredients: ingredientsArray});
+            console.log(this.state.ingredients)
+            e.target.value = "";
         }
     }
 
+    handleIngredientRemoveSubmit(e) {
+        if (e.key == "Enter"){
+            var ingredientsRemArray = this.state.ingredientsRemove; 
+            ingredientsRemArray.push(e.target.value); 
+            this.setState({ingredientsRemove: ingredientsRemArray});
+            console.log(this.state.ingredientsRemove);
+            e.target.value = "";
+        }
+    }
+
+    handleIngredientRemove(input){
+        console.log(input);
+        var arr = this.state.ingredients; 
+        var index = arr.indexOf(input);
+        arr.splice( index, 1 );
+        this.setState({ingredients : arr});
+    }
+
+    handleRemoveIngredientRemove(input){
+        console.log(input);
+        var arr = this.state.ingredientsRemove; 
+        var index = arr.indexOf(input);
+        arr.splice(index, 1 );
+        this.setState({ingredientsRemove : arr});
+    }
+
     render() { 
+        const ingredientArr = this.state.ingredients;
+        const ingredientRemArr = this.state.ingredientsRemove;
         return ( 
             <div className={styles.outerContainer}>
                 <div className={`col align-items-start ${styles.rightBlock}`}>
@@ -36,27 +79,18 @@ class FormContainer extends React.Component {
                                 <div className={styles.searchIcon}>
                                     <Image src={searchIcon} width={36} height={28}></Image>
                                 </div>
-                                <input className={styles.input} type="text"></input>
+                                <input className={styles.input} type="text" onKeyDown={this.handleIngredientSubmit}></input>
                             </div>
-                            <div className={styles.items}>
-                                <div className={styles.itemContainer}>
-                                    <div className={styles.xButton}>
-                                        <Image className={styles.xButton} src={xButton} width={21} height={21}></Image>
-                                    </div>
-                                    <p className={styles.ingredient}>brocolli</p>
-                                </div>
-                                <div className={styles.itemContainer}>
-                                    <div className={styles.xButton}>
-                                        <Image className={styles.xButton} src={xButton} width={21} height={21}></Image>
-                                    </div>
-                                    <p className={styles.ingredient}>mozarella</p>
-                                </div>
-                                <div className={styles.itemContainer}>
-                                    <div className={styles.xButton}>
-                                        <Image className={styles.xButton} src={xButton} width={21} height={21}></Image>
-                                    </div>
-                                    <p className={styles.ingredient}>oat milk</p>
-                                </div>
+                            <div className={`.overflow-auto ${styles.items}`}> 
+                                {ingredientArr.map((ingredient, index) => 
+                                    <Item 
+                                    key={index}
+                                    name={ingredient}
+                                    addIngredient={true}
+                                    handleIngredientRemove={this.handleIngredientRemove}
+                                    handleRemoveIngredientRemove={this.handleRemoveIngredientRemove}
+                                    />
+                                )}
                             </div>
                         </div>
                         <div className={styles.deleteItems}>
@@ -65,27 +99,18 @@ class FormContainer extends React.Component {
                                 <div className={styles.searchIcon}>
                                     <Image src={searchIcon} width={36} height={28}></Image>
                                 </div>
-                                <input className={styles.input} type="text"></input>
+                                <input className={styles.input} type="text" onKeyDown={this.handleIngredientRemoveSubmit}></input>
                             </div>
                             <div className={styles.items}>
-                                <div className={styles.itemContainer}>
-                                    <div className={styles.xButton}>
-                                        <Image className={styles.xButton} src={xButton} width={21} height={21}></Image>
-                                    </div>
-                                    <p className={styles.ingredient}>brocolli</p>
-                                </div>
-                                <div className={styles.itemContainer}>
-                                    <div className={styles.xButton}>
-                                        <Image className={styles.xButton} src={xButton} width={21} height={21}></Image>
-                                    </div>
-                                    <p className={styles.ingredient}>mozarella</p>
-                                </div>
-                                <div className={styles.itemContainer}>
-                                    <div className={styles.xButton}>
-                                        <Image src={xButton} width={21} height={21}></Image>
-                                    </div>
-                                    <p className={styles.ingredient}>oat milk</p>
-                                </div>
+                                {ingredientRemArr.map((ingredient, index) => 
+                                    <Item 
+                                    key={index}
+                                    name={ingredient}
+                                    addIngredient={false}
+                                    handleIngredientRemove={this.handleIngredientRemove}
+                                    handleRemoveIngredientRemove={this.handleRemoveIngredientRemove}
+                                    />
+                                )}
                             </div>
                         </div>
                         <Button className={`col-3 ${styles.nextButton}`} variant="dark">next</Button>
