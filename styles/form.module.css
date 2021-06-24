@@ -3,8 +3,8 @@
 .outerContainer{
     height: 100vh;
     width: 100vw;
-    display: flex; 
-    flex-direction: column;
+    /* display: flex;  */
+    /* flex-direction: column; */
     background-image: url("../public/images/orangebackground.svg");
     position: fixed;
     background-repeat: no-repeat; 
@@ -13,38 +13,47 @@
 
 .outerForm {
     width: 55vw;
-    height: 65vh;
+    height: 70vh;
     border: solid thick #FFCCA5;
     border-radius: 10px;
     display: flex; 
     flex-direction: column; 
     justify-content: space-evenly;
-    position: relative; 
+    /* position: relative; 
     left: 580px; 
-    top: 152px;
+    top: 152px; */
     
+}
+
+.rightBlock {
+    width: 55vw;
+    position: relative;
+    top: 80px; 
+    left: 500px;
 }
 
 .addItems {
     height: 273px;
-    padding-left: 65px;
+    padding-top: 50px; 
+    margin: auto; 
 }
 
 .deleteItems {
     height: 273px;
-    padding-left: 232px;
+    /* padding-left: 232px; */
+    padding-top: 60px; 
+    margin: auto;
 }
 
 .mainHeading {
     font-size: 45px;
     font-family: 'Noto Sans SC', sans-serif;
-    position: relative;
-    left: 580px;
-    top: 100px;
-    width: 55vw;
+    text-align: right;
+    margin-bottom: 30px;
+    /* width: 55vw;
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
+    justify-content: flex-end; */
 }
 
 .title {
@@ -88,12 +97,19 @@
 
 .input{
     border: none;
+    margin-left: 10px
 }
 
 .xButton{
     property: value !important;
     margin-left: 5px; 
     margin-right: 10px; 
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.input:focus{
+    outline:none;
 }
 
 .searchIcon {
@@ -101,6 +117,45 @@
 }
 
 .ingredient{
-    margin-right: 10px; 
+    margin-right: 10px;
+    margin-top: auto;
+    margin-bottom: auto; 
 }
 
+.nextButton{
+    width: 25%;
+    height: 10%;
+    border: solid white thin;
+    border-radius: 15px;
+    font-size: 18px;
+    margin-left: 70%;
+    margin-bottom: 5%;
+    
+}
+.tabGroup {
+    width: 200px;
+    height: 60px;
+    display: flex; 
+    flex-direction: row; 
+    justify-content: flex-start;
+    margin-left: 10px;
+    height: 45px; 
+}
+
+.tab {
+    height: 60px;
+    padding-left: 18px;
+    padding-right: 18px;
+    padding-top: 5px;
+    font-size: 18px;
+    display: inline-block;
+    background-color:#FFF5ED;
+    border-radius: 10px 10px 0px 0px;
+    border-top: solid thick #FFC99F;
+    border-right: solid thick #FFC99F;
+    border-left: solid thick #FFC99F;
+    margin-right: 30px; 
+    height: 45px;
+    color: #D37B38;
+    white-space: nowrap;
+}
