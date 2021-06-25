@@ -110,11 +110,11 @@
     display: flex; 
     flex-direction: row; 
     width: 450px;
-    overflow-y: scroll;
+    height: 150px; 
     flex: 1;
     flex-wrap: wrap;
-    /* overflow: scroll;
-    width: 450px; */
+    overflow: auto; 
+    
 }
 
 .input{
