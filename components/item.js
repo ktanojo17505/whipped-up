@@ -13,10 +13,10 @@ class Item extends React.Component {
     handleChange(){
         console.log("in handle change");
         if (this.props.addIngredient){
-            this.props.handleIngredientRemove(this.props.name);
+            this.props.handleIngredientRemove(this.props.name, "ingredients");
         }
         else {
-            this.props.handleRemoveIngredientRemove(this.props.name);
+            this.props.handleIngredientRemove(this.props.name, "ingredientsRemove");
         }
     }
 
