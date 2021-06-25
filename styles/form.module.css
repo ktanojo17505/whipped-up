@@ -112,7 +112,7 @@
     width: 450px;
     overflow-y: scroll;
     flex: 1;
-    flex-wrap: 'wrap';
+    flex-wrap: wrap;
     /* overflow: scroll;
     width: 450px; */
 }
