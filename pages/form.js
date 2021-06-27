@@ -90,13 +90,13 @@ class FormContainer extends React.Component {
         this.setState({[stateKey] : arr});
     }
 
+    // TODO: set this so that it takes in an int that will be the next step of the form
     handleNextForm(){
         var nextStep = this.state.step + 1; 
         this.setState({step: nextStep});
     }
 
     handleCheck(diet){
-        // console.log("in handle check")
         var dietArr = this.state.dietaryRestriction; 
         dietArr.find((obj) => {
             if (obj.diet == diet){
@@ -107,11 +107,6 @@ class FormContainer extends React.Component {
     }
 
     render() { 
-        // const headers = [
-        //     "First, let's settle the ingredients.",
-        //     "Next, the equipment and diet.",
-        //     "Finally, time, cuisine, and taste profile."
-        // ];
         const ingredientArr = this.state.ingredients;
         const ingredientRemArr = this.state.ingredientsRemove;
         const equipmentArr = this.state.equipment; 
@@ -120,14 +115,17 @@ class FormContainer extends React.Component {
         // dietMap.map((diet, index) => console.log(diet));
         const step = this.state.step; 
         return ( 
-            <div className={styles.outerContainer}>
+            <>
+            <div className={styles.wrapper}>
                 <div className={styles.wave}>
                     <div className={styles.wave2}>
                     </div>
                 </div>
-                <div className={`col align-items-start ${styles.rightBlock}`}>
+            </div>
+            <div className={styles.outerContainer}>
+                <div className={`${styles.rightBlock}`}>
                     <div className={`col-3 ${styles.tabGroup}`}>
-                        <div className={styles.tab}>
+                        <div className={styles.tabSelected}>
                         ingredients
                         </div>
                         <div className={styles.tab}>equipment & diet</div>
@@ -212,30 +210,38 @@ class FormContainer extends React.Component {
                         }
                         {step == 2 && 
                             <>
-                            <div className={styles.deleteItems}>
-                                <InputSearchBar 
-                                    label={"The cuisines you're interested in"}
-                                    name={"cuisines"}
-                                    handleIngredientSubmit={this.handleIngredientSubmit}
-                                />
-                                <div className={styles.items}>
-                                    {cuisinesArr.map((cuisine, index) => 
-                                        <Item 
-                                        key={index}
-                                        name={cuisine}
-                                        addIngredient={false}
-                                        stateVar={"cuisines"}
-                                        handleIngredientRemove={this.handleIngredientRemove}
-                                        />
-                                    )}
+                                <div className={styles.addItems}>
+                                    <p>Input the cooking time range</p>
+                                    <p>min minutes</p>
+                                    <input type="text"></input>
+                                    <p>max minutes</p>
+                                    <input type="text"></input>
                                 </div>
-                            </div>
-                            <Button className={styles.nextButton} variant="dark">next</Button>
+                                <div className={styles.deleteItems}>
+                                    <InputSearchBar 
+                                        label={"The cuisines you're interested in"}
+                                        name={"cuisines"}
+                                        handleIngredientSubmit={this.handleIngredientSubmit}
+                                    />
+                                    <div className={styles.items}>
+                                        {cuisinesArr.map((cuisine, index) => 
+                                            <Item 
+                                            key={index}
+                                            name={cuisine}
+                                            addIngredient={false}
+                                            stateVar={"cuisines"}
+                                            handleIngredientRemove={this.handleIngredientRemove}
+                                            />
+                                        )}
+                                    </div>
+                                </div>
+                                <Button className={styles.nextButton} variant="dark">next</Button>
                             </>
                         }
                     </div>
                 </div>
             </div>
+        </>
         );
     }
 }

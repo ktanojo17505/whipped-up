@@ -18,7 +18,7 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    margin-left: -500px;
+    margin-left: -520px;
     margin-top: -500px;
     border-radius: 35%;
     background: rgba(255, 255, 255, .75);
@@ -31,7 +31,7 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    margin-left: -500px;
+    margin-left: -520px;
     margin-top: -500px;
     border-radius: 35%;
     background: rgba(255, 255, 255, .75);
@@ -48,11 +48,13 @@ from { transform: rotate(360deg);}
     width: 100vw;
     display: flex; 
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
     /* background-image: url("../public/images/orangebackground.svg");
     position: fixed;
     background-repeat: no-repeat; 
     background-size: cover;  */
-    width: 100vw;
+    /* width: 100vw;
     height: 100vh;
     position: absolute;
     left: 50%;
@@ -60,7 +62,7 @@ from { transform: rotate(360deg);}
     transform: translate(-50%, -50%);
     border-radius: 5px;
     background-image: linear-gradient(to top, #FFC99F 0%, #FFC99F 100%);
-    overflow: hidden;
+    overflow: hidden; */
 }
 
 .outerForm {
@@ -71,15 +73,16 @@ from { transform: rotate(360deg);}
     display: flex; 
     flex-direction: column; 
     justify-content: space-evenly;
+    position: absolute !important;
 }
 
 .rightBlock {
     width: 750px;
     height: 750px;
-    position: relative;
-    margin-top: auto;
+    position: relative; 
+    /* margin-top: 70px; */
     margin-left: auto;
-    margin-right: auto;
+    margin-right: auto; 
 
 }
 
@@ -217,14 +220,13 @@ from { transform: rotate(360deg);}
     height: 10%;
     border-radius: 15px;
     font-size: 18px;
-    margin-left: 80%;
+    margin-left: 85%;
     margin-bottom: 5%;
 }
 
 
 .tabGroup {
     width: 200px;
-    height: 60px;
     display: flex; 
     flex-direction: row; 
     justify-content: flex-start;
@@ -233,7 +235,7 @@ from { transform: rotate(360deg);}
 }
 
 .tab {
-    height: 60px;
+    height: 45px;
     padding-left: 18px;
     padding-right: 18px;
     padding-top: 5px;
@@ -244,6 +246,24 @@ from { transform: rotate(360deg);}
     border-top: solid thick #FFC99F;
     border-right: solid thick #FFC99F;
     border-left: solid thick #FFC99F;
+    margin-right: 30px; 
+    color: #D37B38;
+    white-space: nowrap;
+}
+
+.tabSelected {
+    height: 80px;
+    padding-left: 18px;
+    padding-right: 18px;
+    padding-top: 5px;
+    font-size: 18px;
+    display: inline-block;
+    background-color:white;
+    border-radius: 10px 10px 0px 0px;
+    border-top: solid thick #FFC99F;
+    border-right: solid thick #FFC99F;
+    border-left: solid thick #FFC99F;
+    border-bottom: solid thick white;
     margin-right: 30px; 
     height: 45px;
     color: #D37B38;
@@ -281,3 +301,5 @@ from { transform: rotate(360deg);}
     background-color: white;
     align-items: center;
 }
+
+
