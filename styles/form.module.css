@@ -1,20 +1,71 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC&display=swap');
 
+.wrapper {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 5px;
+    background-image: linear-gradient(to top, #FFC99F 0%, #FFC99F 100%);
+    overflow: hidden;
+  }
+  
+.wave {
+    width: 1050px;
+    height: 1025px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -500px;
+    margin-top: -500px;
+    border-radius: 35%;
+    background: rgba(255, 255, 255, .75);
+    animation: wave 50s infinite linear;
+}
+
+.wave2 {
+    width: 1050px;
+    height: 1025px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -500px;
+    margin-top: -500px;
+    border-radius: 35%;
+    background: rgba(255, 255, 255, .75);
+    animation: wave 50s infinite linear;
+}
+
+@keyframes wave {
+from { transform: rotate(0deg);}
+from { transform: rotate(360deg);}
+}
+
 .outerContainer{
     height: 100vh;
     width: 100vw;
     display: flex; 
     flex-direction: column;
-    background-image: url("../public/images/orangebackground.svg");
+    /* background-image: url("../public/images/orangebackground.svg");
     position: fixed;
     background-repeat: no-repeat; 
-    background-size: cover; 
-   
+    background-size: cover;  */
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 5px;
+    background-image: linear-gradient(to top, #FFC99F 0%, #FFC99F 100%);
+    overflow: hidden;
 }
 
 .outerForm {
-    width: 55vw;
-    height: 70vh;
+    width: 750px;
+    height: 650px;
     border: solid thick #FFC99F;
     border-radius: 10px;
     display: flex; 
@@ -23,10 +74,13 @@
 }
 
 .rightBlock {
-    width: 55vw;
+    width: 750px;
+    height: 750px;
     position: relative;
-    top: 80px; 
-    left: 500px;
+    margin-top: auto;
+    margin-left: auto;
+    margin-right: auto;
+
 }
 
 .addItems {
@@ -42,16 +96,16 @@
     margin: auto;
 }
 
-.mainHeading {
-    font-size: 45px;
+/* .mainHeading {
+    font-size: 30px;
     font-family: 'Noto Sans SC', sans-serif;
-    text-align: right;
+    text-align: center;
     margin-bottom: 30px;
     /* width: 55vw;
     display: flex;
     flex-direction: row;
-    justify-content: flex-end; */
-}
+    justify-content: flex-end; 
+} */
 
 .title {
     color: #874716;

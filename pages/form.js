@@ -8,6 +8,7 @@ import Button from "react-bootstrap/Button";
 import Item from "../components/item.js";
 import InputSearchBar from "../components/inputSearchBar";
 import mCustomScrollbar from "malihu-custom-scrollbar-plugin";
+import Checkbox from "../components/checkbox.js";
 
 
 class FormContainer extends React.Component {
@@ -69,6 +70,7 @@ class FormContainer extends React.Component {
         this.handleIngredientSubmit = this.handleIngredientSubmit.bind(this);
         this.handleIngredientRemove = this.handleIngredientRemove.bind(this);
         this.handleNextForm = this.handleNextForm.bind(this);
+        this.handleCheck = this.handleCheck.bind(this);
     }
 
     handleIngredientSubmit(e, stateKey) {
@@ -93,21 +95,37 @@ class FormContainer extends React.Component {
         this.setState({step: nextStep});
     }
 
+    handleCheck(diet){
+        // console.log("in handle check")
+        var dietArr = this.state.dietaryRestriction; 
+        dietArr.find((obj) => {
+            if (obj.diet == diet){
+                obj.isChecked = !obj.isChecked;
+            } 
+        });
+        this.setState({dietaryRestriction: dietArr})
+    }
+
     render() { 
-        const headers = [
-            "First, let's settle the ingredients.",
-            "Next, the equipment and diet.",
-            "Finally, time, cuisine, and taste profile."
-        ];
+        // const headers = [
+        //     "First, let's settle the ingredients.",
+        //     "Next, the equipment and diet.",
+        //     "Finally, time, cuisine, and taste profile."
+        // ];
         const ingredientArr = this.state.ingredients;
         const ingredientRemArr = this.state.ingredientsRemove;
         const equipmentArr = this.state.equipment; 
         const cuisinesArr = this.state.cuisines; 
+        const dietMap = this.state.dietaryRestriction; 
+        // dietMap.map((diet, index) => console.log(diet));
         const step = this.state.step; 
         return ( 
             <div className={styles.outerContainer}>
+                <div className={styles.wave}>
+                    <div className={styles.wave2}>
+                    </div>
+                </div>
                 <div className={`col align-items-start ${styles.rightBlock}`}>
-                    <h1 className={`col-sm-12 ${styles.mainHeading}`}>{headers[step]}</h1>
                     <div className={`col-3 ${styles.tabGroup}`}>
                         <div className={styles.tab}>
                         ingredients
@@ -180,15 +198,13 @@ class FormContainer extends React.Component {
                                 <div className={styles.deleteItems}>
                                     <h1 className={styles.title}>Your dietary restriction is currently for</h1>
                                     <div className={`.overflow-auto ${styles.items}`}>
-                                        <div className={styles.checkbox}>
-                                            <p className={styles.diet}>vegetarian</p>
-                                        </div>
-                                        <div className={styles.checkboxRem}>
-                                            <p className={styles.diet}>vegan</p>
-                                        </div>
-                                        <div className={styles.checkbox}>
-                                            <p className={styles.diet}>whole30</p>
-                                        </div>
+                                        {dietMap.map((dietaryRestriction, index) => 
+                                            <Checkbox 
+                                            isChecked={dietaryRestriction.isChecked}
+                                            diet={dietaryRestriction.diet}
+                                            handleCheck={this.handleCheck}
+                                            />
+                                        )};
                                     </div>
                                 </div>
                                 <Button className={styles.nextButton} variant="dark" onClick={this.handleNextForm}>next</Button>
