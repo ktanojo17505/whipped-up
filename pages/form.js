@@ -1,7 +1,5 @@
 import React from "react";
 import 'font-awesome/css/font-awesome.min.css';
-import searchIcon from "../public/images/searchicon.svg";
-import Image from "next/image"
 import styles from "../styles/form.module.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Button from "react-bootstrap/Button";
@@ -9,7 +7,10 @@ import Item from "../components/item.js";
 import InputSearchBar from "../components/inputSearchBar";
 import mCustomScrollbar from "malihu-custom-scrollbar-plugin";
 import Checkbox from "../components/checkbox.js";
+import MinMaxInput from "../components/minMaxInput.js";
+import Tab from "../components/tab.js";
 
+// https://css-tricks.com/functional-css-tabs-revisited/
 
 class FormContainer extends React.Component {
     constructor(props) {
@@ -62,15 +63,16 @@ class FormContainer extends React.Component {
                     isChecked: false,
                 }
             ],
-            minTime: -1,
-            maxTime: -1,
-            minCalories: -1,
-            maxCalories: -1,
+            minTime: null,
+            maxTime: null,
+            minCalories: null,
+            maxCalories: null,
         }
         this.handleIngredientSubmit = this.handleIngredientSubmit.bind(this);
         this.handleIngredientRemove = this.handleIngredientRemove.bind(this);
         this.handleNextForm = this.handleNextForm.bind(this);
         this.handleCheck = this.handleCheck.bind(this);
+        this.handleMinMaxSubmit = this.handleMinMaxSubmit.bind(this);
     }
 
     handleIngredientSubmit(e, stateKey) {
@@ -88,11 +90,11 @@ class FormContainer extends React.Component {
         var index = arr.indexOf(input);
         arr.splice( index, 1 );
         this.setState({[stateKey] : arr});
+        console
     }
 
     // TODO: set this so that it takes in an int that will be the next step of the form
-    handleNextForm(){
-        var nextStep = this.state.step + 1; 
+    handleNextForm(nextStep){
         this.setState({step: nextStep});
     }
 
@@ -104,6 +106,25 @@ class FormContainer extends React.Component {
             } 
         });
         this.setState({dietaryRestriction: dietArr})
+    }
+
+    handleMinMaxSubmit(e, stateKey){
+        if (e.key === "Enter"){
+            e.preventDefault();
+            this.setState({[stateKey]: e.target.value});
+        }
+        console.log(this.state[stateKey]);
+    }
+
+    handleSkip(inputType){
+        if (inputType == "time"){
+            this.setState({minTime: null});
+            this.setState({maxTime: null});
+        }
+        else{
+            this.setState({minCalories: null});
+            this.setState({maxCalories: null});
+        }
     }
 
     render() { 
@@ -125,11 +146,24 @@ class FormContainer extends React.Component {
             <div className={styles.outerContainer}>
                 <div className={`${styles.rightBlock}`}>
                     <div className={`col-3 ${styles.tabGroup}`}>
-                        <div className={styles.tabSelected}>
-                        ingredients
-                        </div>
-                        <div className={styles.tab}>equipment & diet</div>
-                        <div className={styles.tab}>extras</div>
+                        <Tab 
+                            isSelected={step === 0}
+                            description={"ingredients"}
+                            step={0}
+                            handleNextForm = {this.handleNextForm}
+                        />
+                        <Tab 
+                            isSelected={step === 1}
+                            description={"equipment & diet"}
+                            step={1}
+                            handleNextForm = {this.handleNextForm}
+                        />
+                        <Tab 
+                            isSelected={step === 2}
+                            description={"extras"}
+                            step={2}
+                            handleNextForm = {this.handleNextForm}
+                        />
                     </div>
                     <div className={`.col-sm-9 ${styles.outerForm}`}>
                         {step == 0 && 
@@ -170,7 +204,7 @@ class FormContainer extends React.Component {
                                     )}
                                 </div>
                             </div>
-                            <Button className={styles.nextButton} variant="dark" onClick={this.handleNextForm}>next</Button>
+                            <Button className={styles.nextButton} variant="dark" onClick={() => this.handleNextForm(step+1)}>next</Button>
                         </>
                         }
                         {step == 1 && 
@@ -202,20 +236,33 @@ class FormContainer extends React.Component {
                                             diet={dietaryRestriction.diet}
                                             handleCheck={this.handleCheck}
                                             />
-                                        )};
+                                        )}
                                     </div>
                                 </div>
-                                <Button className={styles.nextButton} variant="dark" onClick={this.handleNextForm}>next</Button>
+                                <Button className={styles.nextButton} variant="dark" onClick={() => this.handleNextForm(step+1)}>next</Button>
                             </>
                         }
                         {step == 2 && 
                             <>
                                 <div className={styles.addItems}>
-                                    <p>Input the cooking time range</p>
-                                    <p>min minutes</p>
-                                    <input type="text"></input>
-                                    <p>max minutes</p>
-                                    <input type="text"></input>
+                                    <div className={styles.extras}>
+                                        <MinMaxInput 
+                                            description={"Time range is"}
+                                            minLabel={"min minutes"}
+                                            maxLabel={"max minutes"}
+                                            minState={"minTime"}
+                                            maxState={"maxTime"}
+                                            handleMinMaxSubmit={this.handleMinMaxSubmit}
+                                        />
+                                        <MinMaxInput 
+                                            description={"Calorie range is"}
+                                            minLabel={"min calories"}
+                                            maxLabel={"max calories"}
+                                            minState={"minCalories"}
+                                            maxState={"maxCalories"}
+                                            handleMinMaxSubmit={this.handleMinMaxSubmit}
+                                        />
+                                    </div>
                                 </div>
                                 <div className={styles.deleteItems}>
                                     <InputSearchBar 
@@ -235,7 +282,17 @@ class FormContainer extends React.Component {
                                         )}
                                     </div>
                                 </div>
-                                <Button className={styles.nextButton} variant="dark">next</Button>
+                                <div className={styles.lastButtons}>
+                                    <label>
+                                        click to skip
+                                    </label>
+                                    <div className={styles.buttonGroup}> 
+                                        <Button className={styles.nextButton} variant="outline-dark" style={{marginLeft: 10}}>time</Button>
+                                        <Button className={styles.nextButton} variant="outline-dark" style={{marginLeft: 10}}>calories</Button>
+                                        <Button className={styles.nextButton} variant="outline-dark" style={{marginLeft: 10}}>cuisine</Button>
+                                        <Button className={styles.nextButton} variant="dark" style={{marginLeft: 10}}>results</Button>
+                                    </div>
+                                </div>
                             </>
                         }
                     </div>

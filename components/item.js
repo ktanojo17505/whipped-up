@@ -1,8 +1,6 @@
 import React from "react";
 import styles from "../styles/form.module.css";
 import xButton from "../public/images/xbutton.svg";
-import searchIcon from "../public/images/searchicon.svg";
-
 import Image from "next/image"
 
 class Item extends React.Component {
@@ -14,7 +12,6 @@ class Item extends React.Component {
     render() {
         const name = this.props.name; 
         const addIngredient = this.props.addIngredient; 
-        const label = this.props.label; 
         const stateVar = this.props.stateVar; 
         if (addIngredient){
             return (
