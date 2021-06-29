@@ -109,11 +109,14 @@ class FormContainer extends React.Component {
     }
 
     handleMinMaxSubmit(e, stateKey){
-        if (e.key === "Enter"){
-            e.preventDefault();
-            this.setState({[stateKey]: e.target.value});
+        if (e.key == "Enter"){
+            // console.log(e.target.value);
+            this.setState({[stateKey]: e.target.value}, () => {
+                console.log(e.target.value, this.state[stateKey])
+            });
+            e.target.blur();
         }
-        console.log(this.state[stateKey]);
+        // console.log(this.state[stateKey]);
     }
 
     handleSkip(inputType){
@@ -232,6 +235,7 @@ class FormContainer extends React.Component {
                                     <div className={`.overflow-auto ${styles.items}`}>
                                         {dietMap.map((dietaryRestriction, index) => 
                                             <Checkbox 
+                                            key={index}
                                             isChecked={dietaryRestriction.isChecked}
                                             diet={dietaryRestriction.diet}
                                             handleCheck={this.handleCheck}

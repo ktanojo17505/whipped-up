@@ -14,7 +14,9 @@ class Tab extends React.Component {
         const step = this.props.step; 
         if (isSelected){
             return ( 
-                <CSSTransition>
+                <CSSTransition
+                    timeout={500}
+                >
                     <div className={styles.tabSelected}>
                         {description}
                     </div>
