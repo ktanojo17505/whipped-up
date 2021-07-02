@@ -13,14 +13,15 @@ class MinMaxInput extends React.Component {
         const maxLabel = this.props.maxLabel; 
         const minState = this.props.minState; 
         const maxState = this.props.maxState; 
+        const minVal = this.props.minVal; 
+        const maxVal = this.props.maxVal; 
         return ( 
         <div className={styles.minMax}>
             <p className={styles.title} style={{marginBottom: 0}}>{description}</p>
             <p className={styles.label}>{minLabel}</p>
-            <input className={styles.inputNumbers} type="text" onKeyDown={(e) => this.props.handleMinMaxSubmit(e, minState)}></input>
+            <input className={styles.inputNumbers} value={minVal === null ? "" : minVal} type="text" onChange={(e) => this.props.handleMinMaxSubmit(e, minState)}></input>
             <p className={styles.label}>{maxLabel}</p>
-            <input className={styles.inputNumbers} type="text" onKeyDown={(e) => this.props.handleMinMaxSubmit(e, maxState)}></input>
-            {/* <button>skip</button> */}
+            <input className={styles.inputNumbers} value={minVal === null ? "" : maxVal} type="text" onChange={(e) => this.props.handleMinMaxSubmit(e, maxState)}></input>
         </div>
             
         );

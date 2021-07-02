@@ -220,10 +220,10 @@ from { transform: rotate(360deg);}
 
 .nextButton{
     width: 90px;
-    height: 65px;
+    height: 60px;
     border-radius: 15px;
     font-size: 16px;
-    margin-left: 85%;
+    margin-left: 82%;
     margin-bottom: 5%;
 }
 
@@ -375,9 +375,38 @@ from { transform: rotate(360deg);}
 .buttonGroup{
     display: flex; 
     flex-direction:row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
+
+.skipButton{
+    width: 90px;
+    height: 40px;
+    border-radius: 35px;
+    font-size: 14px;
+    margin-bottom: 5%;
+    color: #c09370;
+    border: #c09370;
+    box-shadow: none;
+}
+
+.skipButton:focus{
+    box-shadow: none;
+}
+
+/* .skipButton:hover{
+    background-color: #c09370;
+    border: white;
+    color: white;
+    box-shadow: none;
+} */
 
 .lastButtons{
     display: flex; 
-    flex-direction: column;
+    flex-direction: row;
+    font-family: 'Noto Sans SC,' sans-serif;
+    font-size: 18px;
+    text-align: justify;
+    margin: auto;
 }

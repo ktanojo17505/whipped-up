@@ -10,8 +10,6 @@ import Checkbox from "../components/checkbox.js";
 import MinMaxInput from "../components/minMaxInput.js";
 import Tab from "../components/tab.js";
 
-// https://css-tricks.com/functional-css-tabs-revisited/
-
 class FormContainer extends React.Component {
     constructor(props) {
         super(props);
@@ -67,12 +65,18 @@ class FormContainer extends React.Component {
             maxTime: null,
             minCalories: null,
             maxCalories: null,
+            toSkip: {
+                time: true,
+                calories: false,
+                cuisine: false
+            }
         }
         this.handleIngredientSubmit = this.handleIngredientSubmit.bind(this);
         this.handleIngredientRemove = this.handleIngredientRemove.bind(this);
         this.handleNextForm = this.handleNextForm.bind(this);
         this.handleCheck = this.handleCheck.bind(this);
         this.handleMinMaxSubmit = this.handleMinMaxSubmit.bind(this);
+        this.handleSkip = this.handleSkip.bind(this);
     }
 
     handleIngredientSubmit(e, stateKey) {
@@ -93,7 +97,6 @@ class FormContainer extends React.Component {
         console
     }
 
-    // TODO: set this so that it takes in an int that will be the next step of the form
     handleNextForm(nextStep){
         this.setState({step: nextStep});
     }
@@ -109,24 +112,31 @@ class FormContainer extends React.Component {
     }
 
     handleMinMaxSubmit(e, stateKey){
-        if (e.key == "Enter"){
-            // console.log(e.target.value);
-            this.setState({[stateKey]: e.target.value}, () => {
-                console.log(e.target.value, this.state[stateKey])
-            });
-            e.target.blur();
-        }
-        // console.log(this.state[stateKey]);
+        this.setState({[stateKey]: e.target.value}, () => {
+            console.log(e.target.value, this.state[stateKey]);
+        });
     }
 
     handleSkip(inputType){
-        if (inputType == "time"){
-            this.setState({minTime: null});
-            this.setState({maxTime: null});
-        }
-        else{
-            this.setState({minCalories: null});
-            this.setState({maxCalories: null});
+        var toSkipMap = this.state.toSkip; 
+        toSkipMap[inputType] = !toSkipMap[inputType];
+        this.setState({toSkip: toSkipMap}, () => {
+            console.log(this.state.toSkip)
+        });
+        switch (inputType){
+            case "time":
+                this.setState({minTime: null});
+                this.setState({maxTime: null});
+                break;
+            case "calories":
+                this.setState({minCalories: null});
+                this.setState({maxCalories: null});
+                break;
+            case "cuisine":
+                if (this.state.cuisines.length > 0){
+                    this.setState({cuisines: []});
+                };
+                break;
         }
     }
 
@@ -136,8 +146,13 @@ class FormContainer extends React.Component {
         const equipmentArr = this.state.equipment; 
         const cuisinesArr = this.state.cuisines; 
         const dietMap = this.state.dietaryRestriction; 
+        const toSkip = this.state.toSkip; 
         // dietMap.map((diet, index) => console.log(diet));
         const step = this.state.step; 
+        const minTime = this.state.minTime; 
+        const maxTime = this.state.maxTime;
+        const minCalories = this.state.minCalories;
+        const maxCalories = this.state.maxCalories;
         return ( 
             <>
             <div className={styles.wrapper}>
@@ -256,6 +271,8 @@ class FormContainer extends React.Component {
                                             maxLabel={"max minutes"}
                                             minState={"minTime"}
                                             maxState={"maxTime"}
+                                            minVal={minTime}
+                                            maxVal={maxTime}
                                             handleMinMaxSubmit={this.handleMinMaxSubmit}
                                         />
                                         <MinMaxInput 
@@ -264,6 +281,8 @@ class FormContainer extends React.Component {
                                             maxLabel={"max calories"}
                                             minState={"minCalories"}
                                             maxState={"maxCalories"}
+                                            minVal={minCalories}
+                                            maxVal={maxCalories}
                                             handleMinMaxSubmit={this.handleMinMaxSubmit}
                                         />
                                     </div>
@@ -287,13 +306,13 @@ class FormContainer extends React.Component {
                                     </div>
                                 </div>
                                 <div className={styles.lastButtons}>
-                                    <label>
-                                        click to skip
-                                    </label>
                                     <div className={styles.buttonGroup}> 
-                                        <Button className={styles.nextButton} variant="outline-dark" style={{marginLeft: 10}}>time</Button>
-                                        <Button className={styles.nextButton} variant="outline-dark" style={{marginLeft: 10}}>calories</Button>
-                                        <Button className={styles.nextButton} variant="outline-dark" style={{marginLeft: 10}}>cuisine</Button>
+                                        <label>
+                                            click to skip
+                                        </label>
+                                        <Button className={styles.skipButton} variant={toSkip["time"] ? "secondary" : "outline-secondary"} style={{marginLeft: 10}} onClick={() => this.handleSkip("time")}>time</Button>
+                                        <Button className={styles.skipButton} variant={toSkip["calories"] ? "secondary" : "outline-secondary"} style={{marginLeft: 10}} onClick={() => this.handleSkip("calories")}> calories</Button>
+                                        <Button className={styles.skipButton} variant={toSkip["cuisine"] ? "secondary" : "outline-secondary"} style={{marginLeft: 10}} onClick={() => this.handleSkip("cuisine")}>cuisine</Button>
                                         <Button className={styles.nextButton} variant="dark" style={{marginLeft: 10}}>results</Button>
                                     </div>
                                 </div>
