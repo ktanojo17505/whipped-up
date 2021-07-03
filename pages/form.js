@@ -9,6 +9,7 @@ import mCustomScrollbar from "malihu-custom-scrollbar-plugin";
 import Checkbox from "../components/checkbox.js";
 import MinMaxInput from "../components/minMaxInput.js";
 import Tab from "../components/tab.js";
+import Link from "next/link";
 
 class FormContainer extends React.Component {
     constructor(props) {
@@ -61,10 +62,10 @@ class FormContainer extends React.Component {
                     isChecked: false,
                 }
             ],
-            minTime: null,
-            maxTime: null,
-            minCalories: null,
-            maxCalories: null,
+            minTime: "",
+            maxTime: "",
+            minCalories: "",
+            maxCalories: "",
             toSkip: {
                 time: true,
                 calories: false,
@@ -125,12 +126,12 @@ class FormContainer extends React.Component {
         });
         switch (inputType){
             case "time":
-                this.setState({minTime: null});
-                this.setState({maxTime: null});
+                this.setState({minTime: ""});
+                this.setState({maxTime: ""});
                 break;
             case "calories":
-                this.setState({minCalories: null});
-                this.setState({maxCalories: null});
+                this.setState({minCalories: ""});
+                this.setState({maxCalories: ""});
                 break;
             case "cuisine":
                 if (this.state.cuisines.length > 0){
@@ -147,7 +148,6 @@ class FormContainer extends React.Component {
         const cuisinesArr = this.state.cuisines; 
         const dietMap = this.state.dietaryRestriction; 
         const toSkip = this.state.toSkip; 
-        // dietMap.map((diet, index) => console.log(diet));
         const step = this.state.step; 
         const minTime = this.state.minTime; 
         const maxTime = this.state.maxTime;
@@ -313,7 +313,22 @@ class FormContainer extends React.Component {
                                         <Button className={styles.skipButton} variant={toSkip["time"] ? "secondary" : "outline-secondary"} style={{marginLeft: 10}} onClick={() => this.handleSkip("time")}>time</Button>
                                         <Button className={styles.skipButton} variant={toSkip["calories"] ? "secondary" : "outline-secondary"} style={{marginLeft: 10}} onClick={() => this.handleSkip("calories")}> calories</Button>
                                         <Button className={styles.skipButton} variant={toSkip["cuisine"] ? "secondary" : "outline-secondary"} style={{marginLeft: 10}} onClick={() => this.handleSkip("cuisine")}>cuisine</Button>
-                                        <Button className={styles.nextButton} variant="dark" style={{marginLeft: 10}}>results</Button>
+                                        <Link href={{
+                                            pathname: "/results",
+                                            query: {
+                                                ingredients: ingredientArr,
+                                                ingredientsRemove: ingredientRemArr,
+                                                equipment: equipmentArr,
+                                                cuisine: cuisinesArr,
+                                                diet: JSON.stringify(dietMap),
+                                                minTime: minTime,
+                                                maxTime: maxTime,
+                                                minCalories: minCalories,
+                                                maxCalories: maxCalories
+                                            }
+                                        }}>
+                                            <Button className={styles.nextButton} variant="dark" style={{marginLeft: 10}}>results</Button>
+                                        </Link>
                                     </div>
                                 </div>
                             </>
