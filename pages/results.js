@@ -1,9 +1,13 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { useRouter } from "next/router"
 
 function Results() {
     const router = useRouter();
-    console.log(router.query);
+    const queries = router.query;
+    console.log(JSON.parse(queries.diet));
+    const [data, setData] = useState([]);
+
+
     return (
         <div>
             Results Page 
