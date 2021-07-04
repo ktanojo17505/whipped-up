@@ -11,6 +11,8 @@ import MinMaxInput from "../components/minMaxInput.js";
 import Tab from "../components/tab.js";
 import Link from "next/link";
 
+//TODO: MaxReadyTime --> only one input 
+//TODO: can only choose one dietary restriction (make it radio buttons and once clicked will change diet state)
 class FormContainer extends React.Component {
     constructor(props) {
         super(props);
@@ -83,8 +85,7 @@ class FormContainer extends React.Component {
     handleIngredientSubmit(e, stateKey) {
         if (e.key == "Enter"){
             var ingredientsArray = this.state[stateKey]; 
-            ingredientsArray.push(e.target.value); 
-            this.setState({[stateKey]: ingredientsArray});
+            this.setState({[stateKey]: [ ...this.state[stateKey], e.target.value]});
             e.target.value = "";
         }
     }
