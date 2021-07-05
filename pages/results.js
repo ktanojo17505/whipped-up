@@ -48,46 +48,54 @@ function Results() {
             data.map((recipe) => {
                 recipeIds.push(recipe.id);
             })
-            // console.log(recipeIds);
             return recipeIds;
         });
         console.log(recipeIds);
-        // const recipeIds = await getIds();
-    
-        // console.log(recipeIds);
 
-        // recipeIds.map((id) => console.log(id))
-        // console.log(recipeIds);
-        // fetch(`https://api.spoonacular.com/recipes/findByIngredients?apiKey=${process.env.NEXT_PUBLIC_SPOONACULAR_API}` + params)
-        // .then(response => response.json())
-        // .then(data => 
-        //     data.map((recipe) => {
-        //         recipeIds.push(recipe.id);
-        //         console.log(recipe.id)
-        //     })
-        // )
+        let promisesInfo = [];
+        recipeIds.map((id) => {
+            promisesInfo.push(fetch(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${process.env.NEXT_PUBLIC_SPOONACULAR_API}&includeNutrition=false`));
+        })
+        var info = await Promise.all(promisesInfo)
+        .then(async (responses) => {
+            var dataArr = [];
+            for (let res of responses){
+                dataArr.push(await res.json());
+            }
+            return dataArr; 
+        }).then(data => {
+            return data;
+        });
+
+        console.log(info);
+
+        // let promisesWidget = [];
+        // recipeIds.map((id) => {
+        //     promisesWidget.push(`https://api.spoonacular.com/recipes/${id}/tasteWidget?apiKey=${process.env.NEXT_PUBLIC_SPOONACULAR_API}`)
+        // })
+        // var widgets = Promise.all(promisesWidgets)
+        // .then((responses) => {
+        //     var dataArr = [];
+        //     for (let res of responses){
+        //         res.json().then(data => dataArr.push(data));
+        //     }
+        //     return dataArr; 
+        // });
+        // console.log(widgets);
+
+        
 
     }
 
-    // async function getIds(params) {
-    //     var recipeIds = [];
-    //     fetch(`https://api.spoonacular.com/recipes/findByIngredients?apiKey=${process.env.NEXT_PUBLIC_SPOONACULAR_API}` + params)
-    //     .then(response => response.json())
-    //     .then(data => {
-    //         data.map((recipe) => {
-    //             recipeIds.push(recipe.id);
-    //         })
-    //         return recipeIds;
-    //         }   
-    //     )
+    // async function getInfo(recipeIds) {
+    //     recipeIds.map((id) => {
+    //         await fetch(`https://api.spoonacular.com/recipes/${id}/information`)
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             console.log(data)
+    //         });
+    //     })
     // }
-
-    const getInfo = async(id) => {
-        console.log(id);
-        fetch(`https://api.spoonacular.com/recipes/${id}/information`)
-        .then(response => response.json())
-        .then(data => console.log(data));
-    }
 
     /** For each recipe returned we need 
      * Recipe ID --> GET https://api.spoonacular.com/recipes/complexSearch
