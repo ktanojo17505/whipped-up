@@ -76,6 +76,7 @@ from { transform: rotate(360deg);}
     position: absolute !important;
     background-color: white;
     z-index: 2;
+    box-shadow: 10px 10px 35px 5px #a5a5a5;
 }
 
 .rightBlock {
@@ -186,7 +187,8 @@ from { transform: rotate(360deg);}
 
 .input{
     border: none;
-    margin-left: 10px
+    margin-left: 10px;
+    width: 90%;
 }
 
 .xButton{
