@@ -41,61 +41,56 @@ function Results() {
             params += "&maxCalories=";
             params += queries.maxCalories;
         }
-        var recipeIds = [];
-        recipeIds = await fetch(`https://api.spoonacular.com/recipes/findByIngredients?apiKey=${process.env.NEXT_PUBLIC_SPOONACULAR_API}` + params)
-        .then(response => response.json())
-        .then(data => {
-            data.map((recipe) => {
-                recipeIds.push(recipe.id);
-            })
-            return recipeIds;
-        });
-        console.log(recipeIds);
+        // temp recipe ids array so that wont continuously fetch api 
+        var recipeIds = [643150, 649280, 607953, 73449, 659081, 651979, 157960, 634554, 665524,660843]
+        /** DONT DELETE */
+        // var recipeIds = [];
+        // recipeIds = await fetch(`https://api.spoonacular.com/recipes/findByIngredients?apiKey=${process.env.NEXT_PUBLIC_SPOONACULAR_API}` + params)
+        // .then(response => response.json())
+        // .then(data => {
+        //     data.map((recipe) => {
+        //         recipeIds.push(recipe.id);
+        //     })
+        //     return recipeIds;
+        // });
+        // console.log(recipeIds);
+        /** DONT DELETE */
 
-        let promisesInfo = [];
+        /** DONT DELETE */
+        // let promisesInfo = [];
+        // recipeIds.map((id) => {
+        //     promisesInfo.push(fetch(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${process.env.NEXT_PUBLIC_SPOONACULAR_API}&includeNutrition=false`));
+        // })
+        // var info = await Promise.all(promisesInfo)
+        // .then(async (responses) => {
+        //     var dataArr = [];
+        //     for (let res of responses){
+        //         dataArr.push(await res.json());
+        //     }
+        //     return dataArr; 
+        // }).then(data => {
+        //     return data;
+        // });
+        /** DONT DELETE */
+
+        /** DONT DELETE TESTING WIDGET API 
+        let promisesWidget = [];
         recipeIds.map((id) => {
-            promisesInfo.push(fetch(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${process.env.NEXT_PUBLIC_SPOONACULAR_API}&includeNutrition=false`));
+            promisesWidget.push(fetch(`https://api.spoonacular.com/recipes/${id}/tasteWidget?apiKey=${process.env.NEXT_PUBLIC_SPOONACULAR_API}`));
         })
-        var info = await Promise.all(promisesInfo)
-        .then(async (responses) => {
+        var widgets = await Promise.all(promisesWidget)
+        .then(async(responses) => {
             var dataArr = [];
             for (let res of responses){
                 dataArr.push(await res.json());
             }
-            return dataArr; 
+            return dataArr
         }).then(data => {
             return data;
         });
-
-        console.log(info);
-
-        // let promisesWidget = [];
-        // recipeIds.map((id) => {
-        //     promisesWidget.push(`https://api.spoonacular.com/recipes/${id}/tasteWidget?apiKey=${process.env.NEXT_PUBLIC_SPOONACULAR_API}`)
-        // })
-        // var widgets = Promise.all(promisesWidgets)
-        // .then((responses) => {
-        //     var dataArr = [];
-        //     for (let res of responses){
-        //         res.json().then(data => dataArr.push(data));
-        //     }
-        //     return dataArr; 
-        // });
-        // console.log(widgets);
-
-        
-
+        console.log(widgets);
+        DONT DELETE */
     }
-
-    // async function getInfo(recipeIds) {
-    //     recipeIds.map((id) => {
-    //         await fetch(`https://api.spoonacular.com/recipes/${id}/information`)
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             console.log(data)
-    //         });
-    //     })
-    // }
 
     /** For each recipe returned we need 
      * Recipe ID --> GET https://api.spoonacular.com/recipes/complexSearch
