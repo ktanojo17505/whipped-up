@@ -43,7 +43,7 @@ function Results() {
         }
         // temp recipe ids array so that wont continuously fetch api 
         var recipeIds = [643150, 649280, 607953, 73449, 659081, 651979, 157960, 634554, 665524,660843]
-        /** DONT DELETE */
+        /** DONT DELETE grabs recipe ID's */
         // var recipeIds = [];
         // recipeIds = await fetch(`https://api.spoonacular.com/recipes/findByIngredients?apiKey=${process.env.NEXT_PUBLIC_SPOONACULAR_API}` + params)
         // .then(response => response.json())
@@ -56,7 +56,7 @@ function Results() {
         // console.log(recipeIds);
         /** DONT DELETE */
 
-        /** DONT DELETE */
+        /** DONT DELETE grabs info */
         // let promisesInfo = [];
         // recipeIds.map((id) => {
         //     promisesInfo.push(fetch(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${process.env.NEXT_PUBLIC_SPOONACULAR_API}&includeNutrition=false`));

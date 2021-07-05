@@ -386,13 +386,19 @@ from { transform: rotate(360deg);}
     border-radius: 35px;
     font-size: 14px;
     margin-bottom: 5%;
-    color: #c09370;
-    border: #c09370;
     box-shadow: none;
 }
 
 .skipButton:focus{
     box-shadow: none;
+}
+
+.skipText {
+    color: grey;
+    font-family: 'Noto Sans SC,' sans-serif;
+    font-size: 15px; 
+    text-align: justify; 
+    padding-bottom: 5%;
 }
 
 /* .skipButton:hover{

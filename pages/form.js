@@ -22,7 +22,7 @@ class FormContainer extends React.Component {
             ingredientsRemove: [],
             equipment: [],
             cuisines: [],
-            dietaryRestriction: [
+            dietaryRestrictions: [
                 {
                     diet: "vegetarian",
                     isChecked: false,
@@ -64,12 +64,12 @@ class FormContainer extends React.Component {
                     isChecked: false,
                 }
             ],
-            minTime: "",
-            maxTime: "",
+            diet: "",
+            maxReadyTime: "",
             minCalories: "",
             maxCalories: "",
             toSkip: {
-                time: true,
+                time: false,
                 calories: false,
                 cuisine: false
             }
@@ -104,13 +104,18 @@ class FormContainer extends React.Component {
     }
 
     handleCheck(diet){
-        var dietArr = this.state.dietaryRestriction; 
+        var dietArr = this.state.dietaryRestrictions; 
+        var prevDiet = this.state.diet; 
         dietArr.find((obj) => {
             if (obj.diet == diet){
-                obj.isChecked = !obj.isChecked;
+                obj.isChecked = true;
+            }
+            if (obj.diet == prevDiet){
+                obj.isChecked = false; 
             } 
         });
-        this.setState({dietaryRestriction: dietArr})
+        this.setState({dietaryRestrictions: dietArr});
+        this.setState({diet: diet});
     }
 
     handleMinMaxSubmit(e, stateKey){
@@ -127,8 +132,7 @@ class FormContainer extends React.Component {
         });
         switch (inputType){
             case "time":
-                this.setState({minTime: ""});
-                this.setState({maxTime: ""});
+                this.setState({maxReadyTime: ""});
                 break;
             case "calories":
                 this.setState({minCalories: ""});
@@ -147,11 +151,11 @@ class FormContainer extends React.Component {
         const ingredientRemArr = this.state.ingredientsRemove;
         const equipmentArr = this.state.equipment; 
         const cuisinesArr = this.state.cuisines; 
-        const dietMap = this.state.dietaryRestriction; 
+        const dietMap = this.state.dietaryRestrictions; 
+        const diet = this.state.diet; 
         const toSkip = this.state.toSkip; 
         const step = this.state.step; 
-        const minTime = this.state.minTime; 
-        const maxTime = this.state.maxTime;
+        const maxReadyTime = this.state.maxReadyTime; 
         const minCalories = this.state.minCalories;
         const maxCalories = this.state.maxCalories;
         return ( 
@@ -266,26 +270,27 @@ class FormContainer extends React.Component {
                             <>
                                 <div className={styles.addItems}>
                                     <div className={styles.extras}>
-                                        <MinMaxInput 
-                                            description={"Time range is"}
-                                            minLabel={"min minutes"}
-                                            maxLabel={"max minutes"}
-                                            minState={"minTime"}
-                                            maxState={"maxTime"}
-                                            minVal={minTime}
-                                            maxVal={maxTime}
-                                            handleMinMaxSubmit={this.handleMinMaxSubmit}
-                                        />
-                                        <MinMaxInput 
-                                            description={"Calorie range is"}
-                                            minLabel={"min calories"}
-                                            maxLabel={"max calories"}
-                                            minState={"minCalories"}
-                                            maxState={"maxCalories"}
-                                            minVal={minCalories}
-                                            maxVal={maxCalories}
-                                            handleMinMaxSubmit={this.handleMinMaxSubmit}
-                                        />
+                                        <div className={styles.minMax}>
+                                            <p className={styles.title} style={{marginBottom: 0}}>Max Ready Time</p>
+                                            <MinMaxInput 
+                                                label={"max minutes"}
+                                                stateKey={"maxReadyTime"}
+                                                handleMinMaxSubmit={this.handleMinMaxSubmit}
+                                            />
+                                        </div>
+                                        <div className={styles.minMax}>
+                                            <p className={styles.title} style={{marginBottom: 0}}>Calorie Range</p>
+                                            <MinMaxInput 
+                                                label={"min calories"}
+                                                stateKey={"minCalories"}
+                                                handleMinMaxSubmit={this.handleMinMaxSubmit}
+                                            />
+                                            <MinMaxInput 
+                                                label={"max calories"}
+                                                stateKey={"maxCalories"}
+                                                handleMinMaxSubmit={this.handleMinMaxSubmit}
+                                            /> 
+                                        </div>
                                     </div>
                                 </div>
                                 <div className={styles.deleteItems}>
@@ -308,7 +313,7 @@ class FormContainer extends React.Component {
                                 </div>
                                 <div className={styles.lastButtons}>
                                     <div className={styles.buttonGroup}> 
-                                        <label>
+                                        <label className={styles.skipText}>
                                             click to skip
                                         </label>
                                         <Button className={styles.skipButton} variant={toSkip["time"] ? "secondary" : "outline-secondary"} style={{marginLeft: 10}} onClick={() => this.handleSkip("time")}>time</Button>
@@ -321,9 +326,8 @@ class FormContainer extends React.Component {
                                                 ingredientsRemove: ingredientRemArr,
                                                 equipment: equipmentArr,
                                                 cuisine: cuisinesArr,
-                                                diet: JSON.stringify(dietMap),
-                                                minTime: minTime,
-                                                maxTime: maxTime,
+                                                diet: diet,
+                                                maxReadyTime: maxReadyTime,
                                                 minCalories: minCalories,
                                                 maxCalories: maxCalories
                                             }
