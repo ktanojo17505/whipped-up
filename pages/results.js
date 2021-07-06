@@ -33,6 +33,14 @@ function Results() {
             params += "&cuisine=";
             params += Array.isArray(queries.cuisine.length) ? queries.cuisine.join() : queries.cuisine;
         }
+        if (queries.diet != ""){
+            params += "&diet=";
+            params += queries.diet;
+        }
+        if (queries.maxReadyTime != ""){
+            params += "&maxReadyTime";
+            params += queries.maxReadyTime;
+        }
         if (queries.minCalories != ""){
             params += "&minCalories=";
             params += queries.minCalories; 
@@ -42,7 +50,8 @@ function Results() {
             params += queries.maxCalories;
         }
         // temp recipe ids array so that wont continuously fetch api 
-        var recipeIds = [643150, 649280, 607953, 73449, 659081, 651979, 157960, 634554, 665524,660843]
+        // var recipeIds = [643150, 649280, 607953, 73449, 659081, 651979, 157960, 634554, 665524, 660843]
+        var recipeIds = [643150]
         /** DONT DELETE grabs recipe ID's */
         // var recipeIds = [];
         // recipeIds = await fetch(`https://api.spoonacular.com/recipes/findByIngredients?apiKey=${process.env.NEXT_PUBLIC_SPOONACULAR_API}` + params)
@@ -71,25 +80,33 @@ function Results() {
         // }).then(data => {
         //     return data;
         // });
+        // console.log(info);
         /** DONT DELETE */
 
-        /** DONT DELETE TESTING WIDGET API 
+        /* DONT DELETE TESTING WIDGET API */ 
         let promisesWidget = [];
         recipeIds.map((id) => {
             promisesWidget.push(fetch(`https://api.spoonacular.com/recipes/${id}/tasteWidget?apiKey=${process.env.NEXT_PUBLIC_SPOONACULAR_API}`));
         })
         var widgets = await Promise.all(promisesWidget)
         .then(async(responses) => {
-            var dataArr = [];
+            var widgetArr = [];
             for (let res of responses){
-                dataArr.push(await res.json());
+                widgetArr.push(await res.text());
             }
-            return dataArr
-        }).then(data => {
-            return data;
+            return widgetArr
+        }).then(widgetArr => {
+            var htmlArr = [];
+            var parser = new DOMParser();
+            for (let widget of widgetArr){
+                var doc = parser.parseFromString(widget, "text/html");
+                htmlArr.push(doc);
+                console.log(doc)
+            }
+            return htmlArr;
         });
-        console.log(widgets);
-        DONT DELETE */
+        console.log(widgets[0]);
+        /* DONT DELETE */
     }
 
     /** For each recipe returned we need 
