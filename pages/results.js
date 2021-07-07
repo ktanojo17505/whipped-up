@@ -61,7 +61,7 @@ function Results() {
         }
         // *DELETE LATER temp recipe ids array so that wont continuously fetch api 
         // var recipeIds = [643150, 649280, 607953, 73449, 659081, 651979, 157960, 634554, 665524, 660843]
-        // var recipeIds = [643150]
+        var recipeIds = [643150, 649280]
 
         /** DONT DELETE grabs recipe ID's */
         // var recipeIds = [];
@@ -129,6 +129,7 @@ function Results() {
         //     return htmlArr;
         // });
         // console.log(widgets[0]);
+        // console.log(widgets[1]);
 
         // DUMMY DATA 
         var entries = [];
@@ -145,7 +146,7 @@ function Results() {
                         <div>
                             <canvas id="taste-visualization"></canvas>
                         </div>
-                        <script dangerouslySetInnerHTML={{__html: `var config={type:"radar",data:{labels:["Sweet","Salty","Sour","Bitter","Savory","Fatty"],datasets:[{label:"",backgroundColor:"rgb(75, 192, 192, 0.2)",borderColor:"rgb(75, 192, 192)",pointBackgroundColor:"rgb(75, 192, 192)",data:[31.46,100,23.52,10.93,43.37,80.91]}]},options:{legend:{display:!1},title:{display:!1},scale:{pointLabels:{fontSize:20},angleLines:{display:!0},ticks:{display:!1,min:0,max:100,stepSize:20}}}};new Chart(document.getElementById("taste-visualization"),config);`}}>
+                        <script dangerouslySetInnerHTML={{__html: `var config={type:"radar",data:{labels:["Sweet","Salty","Sour","Bitter","Savory","Fatty"],datasets:[{label:"",backgroundColor:"rgb(75, 192, 192, 0.2)",borderColor:"rgb(75, 192, 192)",pointBackgroundColor:"rgb(75, 192, 192)",data:[31.46,100,23.52,10.93,43.37,80.91]}]},options:{legend:{display:!1},title:{display:!1},scale:{pointLabels:{fontSize:20},angleLines:{display:!0},ticks:{display:!1,min:0,max:100,stepSize:20}}}};new Chart(window.document.getElementById("taste-visualization") ,config);`}}>
                         </script>
                     </> // only using widget in this way for dummy data, later widget will be in its own seperate array 
         }
@@ -167,7 +168,7 @@ function Results() {
                     url={entry.url}
                     time={entry.time}
                     summary={entry.summary}
-                    widget={entry.widget}
+                    // widget={entry.widget}
                 />
             )}
         </div>
