@@ -1,6 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import { useRouter } from "next/router";
 import RecipeCard from '../components/recipeCard';
+import styles from "../styles/results.module.css";
+import Navbar from "react-bootstrap/NavBar";
+import Nav from "react-bootstrap/Nav";
+import Form from "react-bootstrap/Form";
+import FormControl from "react-bootstrap/FormControl";
+import "bootstrap/dist/css/bootstrap.min.css";
+
 
 const apiKey = process.env.SPOONACULAR_API;
 
@@ -158,9 +165,24 @@ function Results() {
     }
     
     return (
+
+        <>
         <div>
-            <h1>Here are the results with your constraints</h1>
-            <p>We found {numResults} recipes for you</p>
+    <Navbar bg="light" expand="lg">
+            <Navbar.Brand href="#home">Whipped Up</Navbar.Brand>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+                <Nav className="mr-auto">
+                <Nav.Link href="#home">about us</Nav.Link>
+                <Nav.Link href="#link">back to home</Nav.Link>
+                </Nav>
+            </Navbar.Collapse>
+            </Navbar>
+            </div>
+
+            <div>
+            <h1 className={styles.firstHeading}>Here are the results with your constraints</h1>
+            <p className={styles.numberResults}>We found {numResults} recipes for you</p>
             {info.map((entry, index) => 
                 <RecipeCard 
                     key={index} // change to id here when it becomes unique
@@ -172,6 +194,7 @@ function Results() {
                 />
             )}
         </div>
+        </>
     )
 }
 
