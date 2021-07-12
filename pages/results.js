@@ -127,14 +127,18 @@ function Results() {
         //     }
         //     return widgetArr
         // }).then(widgetArr => {
-        //     var htmlArr = [];
-        //     var parser = new DOMParser();
+        //     let dataArr = [];
         //     for (let widget of widgetArr){
-        //         var doc = parser.parseFromString(widget, "text/html");
-        //         htmlArr.push(doc);
-        //         console.log(doc)
+        //         let arr = []
+        //         let startIdx = 305; // taking advantage of the fact that all responses are the same except for the datapoints
+        //         let endIdx = widget.indexOf("]", startIdx)-1; // exclude the bracket
+        //         let dataArrStr = widget.substr(startIdx, endIdx-startIdx).split(',');
+        //         for (const datapoint of dataArrStr){
+        //             arr.push(parseFloat(datapoint))
+        //         }
+        //         dataArr.push(arr);
         //     }
-        //     return htmlArr;
+        //     return dataArr;
         // });
         // console.log(widgets[0]);
         // console.log(widgets[1]);

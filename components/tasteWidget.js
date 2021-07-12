@@ -3,6 +3,19 @@ import { Radar } from 'react-chartjs-2';
 
 
 function TasteWidget(props) {
+    // var dataStr = `{
+    //         labels: ["Sweet","Salty","Sour","Bitter","Savory","Fatty"],
+    //         datasets: [
+    //           {
+    //               label:"",
+    //               backgroundColor:"rgb(75, 192, 192, 0.2)",
+    //               borderColor:"rgb(75, 192, 192)",
+    //               pointBackgroundColor:"rgb(75, 192, 192)",
+    //               data:[20.31,100,43.67,26.8,30.94,53.45]
+    //           },
+    //         ],
+    //       };`
+    
     const data = {
         labels: ["Sweet","Salty","Sour","Bitter","Savory","Fatty"],
         datasets: [
