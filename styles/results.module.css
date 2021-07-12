@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC&display=swap');
+
+/* .outerBox{
+    height: 100vh;
+    width: 100vw;
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  } */
+
+  .mainContainer {
+    height: 100vh;
+    width: 100vw;
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .numberResults {
+      margin: auto;
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 20px;
+      color: #BB987D;
+
+  }
+
+  .firstHeading {
+      margin: auto; 
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 37px; 
+      color: #874716
+  }
