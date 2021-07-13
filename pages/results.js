@@ -1,13 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import { useRouter } from "next/router";
 import RecipeCard from '../components/recipeCard';
-import TasteWidget from '../components/tasteWidget';
 import styles from "../styles/results.module.css";
 import Navbar from "react-bootstrap/NavBar";
 import Nav from "react-bootstrap/Nav";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Image from "next/image";
+import Logo from "../public/images/Logo.svg"
 
 
 const apiKey = process.env.SPOONACULAR_API;
@@ -119,7 +120,7 @@ function Results() {
         // recipeIds.map((id) => {
         //     promisesWidget.push(fetch(`https://api.spoonacular.com/recipes/${id}/tasteWidget?apiKey=${process.env.NEXT_PUBLIC_SPOONACULAR_API}`));
         // })
-        // var widgets = await Promise.all(promisesWidget)
+        // var dataArr = await Promise.all(promisesWidget)
         // .then(async(responses) => {
         //     var widgetArr = [];
         //     for (let res of responses){
@@ -140,10 +141,8 @@ function Results() {
         //     }
         //     return dataArr;
         // });
-        // console.log(widgets[0]);
-        // console.log(widgets[1]);
-
-        // TODO: given the widget need to parse the data into data and options and pass it down to tastewidget
+        // console.log(dataArr[0]);
+        // console.log(dataArr[1]);
 
         // DUMMY DATA 
         var entries = [];
@@ -152,10 +151,11 @@ function Results() {
             "title": "Fluffy frittata with spinach",
             "url": "http://www.foodista.com/recipe/Z3SVPNCV/fluffy-frittata-with-spinach",
             "time": 45,
-            "summary": <><p>Fluffy frittata with spinach might be just the main course you are searching for. This gluten free, primal, and ketogenic recipe serves 4 and costs <b>$1.55 per serving</b>. One serving contains <b>279 calories</b>, <b>20g of protein</b>, and <b>20g of fat</b>. A mixture of spinach, olive oil, spinach, and a handful of other ingredients are all it takes to make this recipe so tasty. 
+            "summary": <>Fluffy frittata with spinach might be just the main course you are searching for. This gluten free, primal, and ketogenic recipe serves 4 and costs <b>$1.55 per serving</b>. One serving contains <b>279 calories</b>, <b>20g of protein</b>, and <b>20g of fat</b>. A mixture of spinach, olive oil, spinach, and a handful of other ingredients are all it takes to make this recipe so tasty. 
                             To use up the eggs you could follow this main course with the <a href="https://spoonacular.com/recipes/rose-levy-beranbaums-chocolate-tomato-cake-with-mystery-ganache-27408">Rose Levy Beranbaum's Chocolate Tomato Cake with Mystery Ganache</a> as a dessert. Only a few people made this recipe, and 7 would say it hit the spot. From preparation to the plate, this recipe takes roughly 
                             <b>45 minutes</b>. All things considered, we decided this recipe <b>deserves a spoonacular score of 74%</b>. This score is pretty good. Try <a href="https://spoonacular.com/recipes/fluffy-bacon-cheese-frittata-147451">Fluffy Bacon-Cheese Frittata</a>, <a href="https://spoonacular.com/recipes/fluffy-gluten-free-spinach-cheese-biscuits-682018">Fluffy Gluten Free Spinach Cheese Biscuits</a>, 
-                            and <a href="https://spoonacular.com/recipes/fluffy-light-yummy-spinach-blue-cheese-souffle-427654">Fluffy, Light & Yummy: Spinach & Blue Cheese Souffle</a> for similar recipes</p></>
+                            and <a href="https://spoonacular.com/recipes/fluffy-light-yummy-spinach-blue-cheese-souffle-427654">Fluffy, Light & Yummy: Spinach & Blue Cheese Souffle</a> for similar recipes</>,
+            "shortSummary": <>Fluffy frittata with spinach might be just the main course you are searching for.</>
         }
         for (let i = 0; i < 6; ++i){
             entries.push(obj);
@@ -163,39 +163,47 @@ function Results() {
         setInfo(entries);
         setNumResults(entries.length);
     }
+
     
     return (
-
         <>
+        <nav className="navbar navbar-expand-lg navbar-light bg-light static-top" style={{border: "2px solid black", backgroundColor: "white !important", height: "100px"}}>
+            {/* <div className="container" style={{marginLeft: 0}}> */}
+                <a className="navbar-brand" style={{marginLeft: "14px"}}href="#">
+                    <Image src={Logo} alt="" width="70px" height="64px" top="20px"/>
+                </a>
+                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    <span className="navbar-toggler-icon"></span>
+                    </button>
+                <div className="collapse navbar-collapse" id="navbarResponsive" style={{justifyContent:"flex-end", marginRight: "14px"}}>
+                    <ul className="navbar-nav ml-auto">
+                        <li className="nav-item active">
+                        <a className="nav-link" style={{fontSize:"26px", fontFamily:"Le Havre Rounded Regular"}} href="#">about us</a>
+                        </li>
+                        <li className="nav-item">
+                        <a className="nav-link" style={{fontSize:"26px", fontFamily:"Le Havre Rounded Regular"}} href="#">back to home</a>
+                        </li>
+                    </ul>
+                </div>
+            {/* </div> */}
+        </nav>
+        <div styles={styles.mainContainer}>
             <div>
-                <Navbar bg="light" expand="lg">
-                <Navbar.Brand href="#home">Whipped Up</Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="mr-auto">
-                    <Nav.Link href="#home">about us</Nav.Link>
-                    <Nav.Link href="#link">back to home</Nav.Link>
-                    </Nav>
-                </Navbar.Collapse>
-                </Navbar>
+                <h1 className={styles.firstHeading}>Here are the results with your constraints</h1>
+                <p className={styles.numberResults}>We found {numResults} recipes for you</p>
+                <div className={`.row align-items-start ${styles.resultsContainer}`}>
+                    {info.map((entry, index) => 
+                        <RecipeCard 
+                            key={index} // change to id here when it becomes unique
+                            title={entry.title}
+                            url={entry.url}
+                            time={entry.time}
+                            summary={entry.summary}
+                            shortSummary={entry.shortSummary}
+                        />
+                    )}
+                </div>
             </div>
-
-            <div>
-            <h1 className={styles.firstHeading}>Here are the results with your constraints</h1>
-            <p className={styles.numberResults}>We found {numResults} recipes for you</p>
-            {info.map((entry, index) => 
-                <>
-                    <RecipeCard 
-                        key={index} // change to id here when it becomes unique
-                        title={entry.title}
-                        url={entry.url}
-                        time={entry.time}
-                        summary={entry.summary}
-                        // widget={entry.widget}
-                    />
-                    <TasteWidget />
-                </>
-            )}
         </div>
         </>
     )
