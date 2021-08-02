@@ -2,13 +2,8 @@ import React, {useState, useEffect} from 'react';
 import { useRouter } from "next/router";
 import RecipeCard from '../components/recipeCard';
 import styles from "../styles/results.module.css";
-import Navbar from "react-bootstrap/NavBar";
-import Nav from "react-bootstrap/Nav";
-import Form from "react-bootstrap/Form";
-import FormControl from "react-bootstrap/FormControl";
+import Header from '../components/header';
 import "bootstrap/dist/css/bootstrap.min.css";
-import Image from "next/image";
-import logofinal from "../public/images/logofinal.svg";
 
 
 const apiKey = process.env.SPOONACULAR_API;
@@ -167,6 +162,7 @@ function Results() {
     
     return (
         <>
+        <Header />
         <div styles={styles.mainContainer}>
             <div>
                 <h1 className={styles.firstHeading}>Here are the results with your constraints</h1>
