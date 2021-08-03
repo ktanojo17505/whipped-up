@@ -11,10 +11,11 @@ class MinMaxInput extends React.Component {
         const description = this.props.description;
         const label = this.props.label; 
         const stateKey = this.props.stateKey; 
+        const inputValue = this.props.inputValue;
         return ( 
         <div>
             <p className={styles.label}>{label}</p>
-            <input className={styles.inputNumbers} type="text" onChange={(e) => this.props.handleMinMaxSubmit(e, stateKey)}></input>
+            <input value={inputValue} pattern= "[0-9]" className={styles.inputNumbers} type="text" onChange={(e) => this.props.handleMinMaxSubmit(e, stateKey)}></input>
         </div>
         );
     }

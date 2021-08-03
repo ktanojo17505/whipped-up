@@ -11,14 +11,14 @@ class Checkbox extends React.Component {
         const diet = this.props.diet; 
         if (isChecked){
             return ( 
-                <div className={styles.checkbox} onClick={() => this.props.handleCheck(diet)}>
+                <div className={styles.checkbox} style={{cursor: 'default'}} onClick={() => this.props.handleCheck(diet)}>
                     <p className={styles.diet}>{diet}</p>
                 </div>
             );
         }
         else{
             return ( 
-                <div className={styles.checkboxRem} onClick={() => this.props.handleCheck(diet)}>
+                <div className={styles.checkboxRem} style={{cursor: 'default'}} onClick={() => this.props.handleCheck(diet)}>
                     <p className={styles.diet}>{diet}</p>
                 </div>
             );

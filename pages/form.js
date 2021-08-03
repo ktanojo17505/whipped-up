@@ -10,6 +10,8 @@ import Checkbox from "../components/checkbox.js";
 import MinMaxInput from "../components/minMaxInput.js";
 import Tab from "../components/tab.js";
 import Link from "next/link";
+import {cuisineChoices} from '../components/cuisineChoicesList';
+import CuisineDropdown from '../components/cuisineDropdown';
 
 //TODO: MaxReadyTime --> only one input 
 //TODO: can only choose one dietary restriction (make it radio buttons and once clicked will change diet state)
@@ -72,7 +74,9 @@ class FormContainer extends React.Component {
                 time: false,
                 calories: false,
                 cuisine: false
-            }
+            },
+            searchTerm: "",
+            searchResults: [],
         }
         this.handleIngredientSubmit = this.handleIngredientSubmit.bind(this);
         this.handleIngredientRemove = this.handleIngredientRemove.bind(this);
@@ -80,23 +84,22 @@ class FormContainer extends React.Component {
         this.handleCheck = this.handleCheck.bind(this);
         this.handleMinMaxSubmit = this.handleMinMaxSubmit.bind(this);
         this.handleSkip = this.handleSkip.bind(this);
+        this.searchHandler = this.searchHandler.bind(this);
+        this.handleCuisine = this.handleCuisine.bind(this);
     }
 
     handleIngredientSubmit(e, stateKey) {
-        if (e.key == "Enter"){
-            var ingredientsArray = this.state[stateKey]; 
+        if (e.key === "Enter"){
             this.setState({[stateKey]: [ ...this.state[stateKey], e.target.value]});
             e.target.value = "";
         }
     }
 
     handleIngredientRemove(input, stateKey){
-        console.log(input);
         var arr = this.state[stateKey]; 
         var index = arr.indexOf(input);
         arr.splice( index, 1 );
         this.setState({[stateKey] : arr});
-        console
     }
 
     handleNextForm(nextStep){
@@ -119,17 +122,13 @@ class FormContainer extends React.Component {
     }
 
     handleMinMaxSubmit(e, stateKey){
-        this.setState({[stateKey]: e.target.value}, () => {
-            console.log(e.target.value, this.state[stateKey]);
-        });
+        this.setState({[stateKey]: e.target.value});
     }
 
     handleSkip(inputType){
         var toSkipMap = this.state.toSkip; 
         toSkipMap[inputType] = !toSkipMap[inputType];
-        this.setState({toSkip: toSkipMap}, () => {
-            console.log(this.state.toSkip)
-        });
+        this.setState({toSkip: toSkipMap});
         switch (inputType){
             case "time":
                 this.setState({maxReadyTime: ""});
@@ -146,6 +145,41 @@ class FormContainer extends React.Component {
         }
     }
 
+    // function that if a user clicks on a cusine or presses enter it will push back in the cusine array
+    handleCuisine(cuisine){
+        const chosenCuisineArr = cuisineChoices.filter((cuisineChoice) => {
+            return cuisineChoice.toLowerCase() === cuisine.toLowerCase();
+        });
+        if (chosenCuisineArr.length === 1){
+            let chosenCuisine = chosenCuisineArr[0];
+            if (this.state.cuisines.indexOf(chosenCuisine) === -1){ // valid cuisine that the user entered or clicked and the user hasnt put that cuisine in yet
+                this.setState({cuisines: [...this.state.cuisines, chosenCuisine]})
+                this.setState({searchResults: []}); 
+                this.setState({searchTerm: ""})
+            }
+            else {
+                alert("This cuisine has already been added!");
+            }
+        }
+        else{
+            alert("Not a valid cuisine choice");
+        }
+    }
+
+    // function that filters input based on what the user types 
+    searchHandler(searchTerm){
+        this.setState({searchTerm: searchTerm});
+        if (searchTerm !== ""){
+            const cuisineList = cuisineChoices.filter((cuisine) => {
+                return cuisine.toLowerCase().includes(searchTerm.toString().toLowerCase());
+            });
+            this.setState({searchResults: cuisineList});
+        }
+        else{
+            this.setState({searchResults: []});
+        }
+    }
+
     render() { 
         const ingredientArr = this.state.ingredients;
         const ingredientRemArr = this.state.ingredientsRemove;
@@ -158,6 +192,8 @@ class FormContainer extends React.Component {
         const maxReadyTime = this.state.maxReadyTime; 
         const minCalories = this.state.minCalories;
         const maxCalories = this.state.maxCalories;
+        const searchTerm = this.state.searchTerm; 
+        const searchResults = this.state.searchResults;
         return ( 
             <>
             <div className={styles.wrapper}>
@@ -196,6 +232,7 @@ class FormContainer extends React.Component {
                                     label={"Your leftover Ingredients are"}
                                     name={"ingredients"}
                                     handleIngredientSubmit={this.handleIngredientSubmit}
+                                    isCuisineInput={false}
                                 />
                                 <div className={`.overflow-auto ${styles.items}`}> 
                                     {ingredientArr.map((ingredient, index) => 
@@ -214,6 +251,7 @@ class FormContainer extends React.Component {
                                     label={"Ingredients to remove from all recipes"}
                                     name={"ingredientsRemove"}
                                     handleIngredientSubmit={this.handleIngredientSubmit}
+                                    isCuisineInput={false}
                                 />
                                 <div className={styles.items}>
                                     {ingredientRemArr.map((ingredient, index) => 
@@ -237,6 +275,7 @@ class FormContainer extends React.Component {
                                         label={"The equipment you own is"}
                                         name={"equipment"}
                                         handleIngredientSubmit={this.handleIngredientSubmit}
+                                        isCuisineInput={false}
                                     />
                                     <div className={`.overflow-auto ${styles.items}`}> 
                                         {equipmentArr.map((equipment, index) => 
@@ -276,6 +315,7 @@ class FormContainer extends React.Component {
                                                 label={"max minutes"}
                                                 stateKey={"maxReadyTime"}
                                                 handleMinMaxSubmit={this.handleMinMaxSubmit}
+                                                inputValue={this.state.maxReadyTime}
                                             />
                                         </div>
                                         <div className={styles.minMax}>
@@ -284,11 +324,13 @@ class FormContainer extends React.Component {
                                                 label={"min calories"}
                                                 stateKey={"minCalories"}
                                                 handleMinMaxSubmit={this.handleMinMaxSubmit}
+                                                inputValue={this.state.minCalories}
                                             />
                                             <MinMaxInput 
                                                 label={"max calories"}
                                                 stateKey={"maxCalories"}
                                                 handleMinMaxSubmit={this.handleMinMaxSubmit}
+                                                inputValue={this.state.maxCalories}
                                             /> 
                                         </div>
                                     </div>
@@ -298,7 +340,18 @@ class FormContainer extends React.Component {
                                         label={"The cuisines you're interested in"}
                                         name={"cuisines"}
                                         handleIngredientSubmit={this.handleIngredientSubmit}
+                                        isCuisineInput={true}
+                                        searchTerm={searchTerm}
+                                        searchKeyword={this.searchHandler}
+                                        handleCuisine={this.handleCuisine}
+
                                     />
+                                    {searchResults.length > 0 && 
+                                        <CuisineDropdown 
+                                            cuisineChoices={searchResults}
+                                            handleCuisine={this.handleCuisine}
+                                        />
+                                    }
                                     <div className={styles.items}>
                                         {cuisinesArr.map((cuisine, index) => 
                                             <Item 
